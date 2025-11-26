@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>All About Dog Breeds!</h1>
+    <p>This site contains everything you need to know about 150+ dog breeds.</p>
+    <p>Whether you are looking for the perfect addition to your family or just curious to learn about certain breeds, this is the place for you.</p>
+
+    <label for="breeds">Choose a breed to learn more:</label>
+    <select id="breeds" name="breed_selection">
+        <option value="" selected>Select a Breed</option>
+        <option value="/dog/beagle">Beagle</option>
+        <option value="/dog/cavalier-king-charles-spaniel">Cavalier King Charles Spaniel</option>
+        <option value="/dog/golden-retriever">Golden Retriever</option>
+        <option value="/dog/shih-tzu">Shih Tzu</option>
+    </select>
+    <script type="text/javascript">
+        var urlmenu = document.getElementById('breeds');
+        urlmenu.onchange = function() {
+            if (this.value) {
+                window.location = this.options[this.selectedIndex].value;
+            }
+        };
+    </script>
+
+</body>
+</html>
