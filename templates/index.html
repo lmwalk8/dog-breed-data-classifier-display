@@ -3,21 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Home Page - Dog Breed Information</title>
+    <style>
+        body {
+            font-family: Marker Felt, fantasy;
+            font-weight: 200;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        p {
+            color: #555;
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin: 30px 0 10px 0;
+            font-size: 16px;
+        }
+        select {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        select:hover {
+            border-color: #4CAF50;
+        }
+        select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        option {
+            padding: 10px;
+        }
+        .intro-section {
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
     <h1>All About Dog Breeds!</h1>
-    <p>This site contains everything you need to know about 150+ dog breeds.</p>
-    <p>Whether you are looking for the perfect addition to your family or just curious to learn about certain breeds, this is the place for you.</p>
+    
+    <div class="intro-section">
+        <p>This site contains everything you need to know about 150+ dog breeds!</p>
+        <p>Whether you are looking for the perfect addition to your family or just curious to learn about certain breeds, this is the place for you.</p>
+    </div>
 
     <label for="breeds">Choose a breed to learn more:</label>
     <select id="breeds" name="breed_selection">
         <option value="" selected>Select a Breed</option>
-        <option value="/dog/beagle">Beagle</option>
-        <option value="/dog/cavalier-king-charles-spaniel">Cavalier King Charles Spaniel</option>
-        <option value="/dog/golden-retriever">Golden Retriever</option>
-        <option value="/dog/shih-tzu">Shih Tzu</option>
+        {% for breed_name, breed_slug in breeds %}
+        <option value="/dog/{{ breed_slug }}">{{ breed_name }}</option>
+        {% endfor %}
     </select>
+    
     <script type="text/javascript">
         var urlmenu = document.getElementById('breeds');
         urlmenu.onchange = function() {
