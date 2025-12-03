@@ -10,3 +10,19 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# Data files
+data/
+*.csv
+*.json
+*.parquet
+*.xlsx
+*.xls
+*.zip
+*.tar.gz
+*.tar
+*.gz
+
+# Kaggle
+.kaggle/
+kaggle.json
