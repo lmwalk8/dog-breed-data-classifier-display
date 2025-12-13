@@ -67,6 +67,15 @@ def transform_dog_breed_data(spark, csv_file_path):
             "Origin (Country)",
             when(col("Breed Name") == "Cavalier King Charles Spaniel", "England").otherwise(col("Origin (Country)"))
         )
+        # Breed Type
+        df = df.withColumn(
+            "Type",
+            when(col("Breed Name") == "Miniature Schnauzer", "Terrier").otherwise(col("Type"))
+        )
+        df = df.withColumn(
+            "Type",
+            when(col("Breed Name") == "Standard Schnauzer", "Working").otherwise(col("Type"))
+        )
         # Size
         df = df.withColumn(
             "Size",

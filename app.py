@@ -63,12 +63,12 @@ def load_breeds_from_database():
     
     return breeds
 
-def get_breed_details_from_database(breed_slug):
+def get_breed_details_from_database(breed):
     """
     Get all details for a specific dog breed from the database.
     
     Args:
-        breed_slug: URL-friendly slug of the breed (e.g., 'beagle')
+        breed: URL-friendly name of the breed (e.g., 'beagle')
     
     Returns:
         dict: Dictionary containing all breed details, or None if not found
@@ -83,10 +83,10 @@ def get_breed_details_from_database(breed_slug):
             # Query all columns for the specific breed using case-insensitive matching
             query = text("""
                 SELECT * FROM dog_breed_data 
-                WHERE LOWER(REPLACE("Breed Name", ' ', '-')) = LOWER(:breed_slug)
+                WHERE LOWER(REPLACE("Breed Name", ' ', '-')) = LOWER(:breed)
                 LIMIT 1
             """)
-            result = connection.execute(query, {"breed_slug": breed_slug})
+            result = connection.execute(query, {"breed": breed})
             row = result.fetchone()
             
             if row:
@@ -106,6 +106,53 @@ def get_breed_details_from_database(breed_slug):
         print(f"Error loading breed details from database: {e}")
         return None
 
+def get_all_breed_data_from_database():
+    """
+    Get all dog breed data from the database for visualizations.
+    
+    Returns:
+        list: List of dictionaries containing all breed data, or empty list if error
+    """
+    if not DATABASE_URL:
+        print("Warning: DATABASE_URL not found. Cannot load breeds from database.")
+        return []
+    
+    try:
+        engine = get_database_engine()
+        with engine.connect() as connection:
+            # Query all dog breed data
+            query = text("SELECT * FROM dog_breed_data ORDER BY \"Breed Name\"")
+            result = connection.execute(query)
+            
+            # Get column names
+            columns = result.keys()
+            
+            # Convert rows to list of dictionaries
+            breeds = []
+            for row in result:
+                breed_dict = {}
+                for i, col in enumerate(columns):
+                    value = row[i]
+                    # Convert database types to JSON-serializable types
+                    if value is None:
+                        breed_dict[col] = None
+                    elif hasattr(value, 'isoformat'):  # datetime objects
+                        breed_dict[col] = value.isoformat()
+                    elif hasattr(value, '__float__'):  # Decimal, etc.
+                        try:
+                            breed_dict[col] = float(value)
+                        except (ValueError, TypeError):
+                            breed_dict[col] = str(value)
+                    else:
+                        breed_dict[col] = value
+                breeds.append(breed_dict)
+            
+            return breeds
+            
+    except Exception as e:
+        print(f"Error loading breed data: {e}")
+        return []
+
 @app.route("/")
 def home():
     breeds = load_breeds_from_database()
@@ -120,6 +167,11 @@ def dog(breed):
         return render_template('dog.html', breed=breed, breed_data=None, error="Breed not found"), 404
     
     return render_template('dog.html', breed=breed, breed_data=breed_data)
+
+@app.route("/visualization")
+def visualization():
+    breed_data = get_all_breed_data_from_database()
+    return render_template('visualization.html', title='Dog Breed Data Visualizations', breed_data=breed_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
