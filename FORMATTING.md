@@ -99,6 +99,31 @@ To run hooks manually on all files:
 pre-commit run --all-files
 ```
 
+### Uninstalling Pre-commit Hooks
+
+To remove pre-commit hooks (they will no longer run automatically):
+
+```
+pre-commit uninstall
+```
+
+This removes the git hooks but keeps the `.pre-commit-config.yaml` file, so you can reinstall later with `pre-commit install`.
+
+### Bypassing Pre-commit Hooks
+
+If you need to commit without running the hooks (not recommended, but sometimes necessary):
+
+```
+git commit --no-verify
+```
+
+Or use the short form:
+```
+git commit -n
+```
+
+**Note**: Bypassing hooks should be used sparingly, as it may result in unformatted code being committed.
+
 ## Configuration
 
 - **Black**: Configured in `pyproject.toml` (line length: 88)
