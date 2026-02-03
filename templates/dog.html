@@ -12,6 +12,7 @@
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
+            position: relative;
         }
         h1 {
             color: #333;
@@ -73,6 +74,15 @@
         .back-link:hover {
             background-color: var(--primary-hover, #45a049);
         }
+        .breed-image {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
     </style>
     {% if breed_data and breed_data.get('Type') %}
     <style>
@@ -116,6 +126,11 @@
         </div>
     {% elif breed_data %}
         <h1>{{ breed_data.get('Breed Name', breed | replace('-', ' ') | title) }}</h1>
+        
+        <img src="{{ url_for('static', filename='breeds/' ~ breed ~ '.jpeg') }}" 
+             alt="{{ breed_data.get('Breed Name', breed | replace('-', ' ') | title) }}"
+             class="breed-image"
+             onerror="this.src='{{ url_for('static', filename='group_of_dogs.jpg') }}'; this.onerror=null;">
         
         <div class="info-section">
             <h2>Basic Information</h2>

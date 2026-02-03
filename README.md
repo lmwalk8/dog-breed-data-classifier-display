@@ -22,3 +22,5 @@ URL: [150+ Dog Breeds Around the World](https://www.kaggle.com/datasets/prajwald
 | Health Issues Risk | String | The likelihood of the breed developing common health problems. |
 | Average Weight | Decimal | The typical weight for the breed. |
 | Training Difficulty | Integer | An assessment of how challenging the breed is to train. |
+
+Most dog breed images are from the following dataset: [Dog Breeds Image Dataset](https://www.kaggle.com/datasets/darshanthakare/dog-breeds-image-dataset/)

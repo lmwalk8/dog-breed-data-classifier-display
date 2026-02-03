@@ -33,12 +33,17 @@ def transform_dog_breed_data(spark, csv_file_path):
         )
 
     try:
-        # Remove duplicates
-        df = df.dropDuplicates()
-        
         # Rename columns
         df = df.withColumnRenamed("Name", "Breed Name")
         df = df.withColumnRenamed("Origin", "Origin (Country)")
+        
+        # Remove duplicates
+        df = df.dropDuplicates()
+        # Specific duplicate breeds
+        df = df.filter(
+            (col("Breed Name") != "Standard Poodle") & 
+            (col("Breed Name") != "Pyrenean Mountain Dog")
+        )
         
         # Clean up weight data
         df = df.withColumn(
@@ -85,6 +90,9 @@ def transform_dog_breed_data(spark, csv_file_path):
             .when((col("Average Weight (kg)") >= 25) & (col("Average Weight (kg)") < 40), "Large")
             .otherwise("Giant")
         )
+
+        # Remove any rows that still have missing values
+        df = df.dropna()
     except AnalysisException as e:
         raise ValueError(f"Column operation failed during categorical standardization: {str(e)}")
     except Exception as e:
