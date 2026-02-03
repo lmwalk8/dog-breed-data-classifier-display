@@ -1,0 +1,14 @@
+# Development dependencies
+
+# Code formatting
+black>=23.0.0
+isort>=5.12.0
+
+# Linting
+flake8>=6.0.0
+
+# Type checking (optional but recommended)
+mypy>=1.0.0
+
+# Pre-commit hooks
+pre-commit>=3.0.0

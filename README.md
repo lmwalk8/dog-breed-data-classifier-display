@@ -19,6 +19,7 @@ This project uses an ETL pipeline on a public dog breed dataset. After going thr
         - `dotenv`: For environment variables (DB credentials).
         - `pyspark`: For data processing.
         - `kaggle`: For Kaggle API client.
+        - `pytest`: For testing ETL pipeline and Flask app.
 - Java JDK 8 or 11
     - Version required for PySpark
 - PostgreSQL (database and user set up)
@@ -70,8 +71,9 @@ pip install -r requirements.txt
 ```
 
 5. Set up required environment variables:
-```
+
 Create .env variable in project directory and add this database information:
+```
 DATABASE_URL=postgresql://your_user:your_password@host:port/database_name
 ```
 And add one of these options for Kaggle information:
@@ -85,7 +87,10 @@ KAGGLE_USERNAME=your_username
 KAGGLE_KEY=your_key
 ```
 - Option 3:
+```
 Place kaggle.json in ~/.kaggle/kaggle.json
+```
+
 *More info on Kaggle setup in extract.py if needed*
 
 6. Run ETL pipeline:
@@ -100,4 +105,26 @@ python app.py
 OR
 ```
 flask run
+```
+
+## Code Formatting and Linting
+
+This project uses automated code formatting tools. See [FORMATTING.md](FORMATTING.md) for more details.
+
+Quick start:
+```
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Format all code
+black .
+isort .
+
+# Check for linting issues
+flake8 .
+```
+
+For automatic formatting on commit, install pre-commit hooks:
+```
+pre-commit install
 ```
